@@ -629,7 +629,7 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      80
+#define BED_MAXTEMP      100
 #define CHAMBER_MAXTEMP  60
 
 /**
@@ -639,7 +639,7 @@
  * a MAXTEMP shutdown! Use these values to forbid temperatures being set too close to MAXTEMP.
  */
 #define HOTEND_OVERSHOOT 15   // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
-#define BED_OVERSHOOT    10   // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
+#define BED_OVERSHOOT    15   // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
 #define COOLER_OVERSHOOT  2   // (°C) Forbid temperatures closer than OVERSHOOT
 
 //===========================================================================
@@ -1172,7 +1172,7 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 108.25 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 102.98 }
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
@@ -1493,17 +1493,17 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { -36, -14, -2.13 }
+#define NOZZLE_TO_PROBE_OFFSET { -34, -15, -3 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
-
+#define PROBING_MARGIN 5
+ 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_FEEDRATE (50*60)
+#define XY_PROBE_FEEDRATE (100*60)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_FEEDRATE_FAST (4*60)
+#define Z_PROBE_FEEDRATE_FAST (8*60)
 
 // Feedrate (mm/min) for the "accurate" probe of each point
 #define Z_PROBE_FEEDRATE_SLOW (Z_PROBE_FEEDRATE_FAST / 2)
@@ -1553,7 +1553,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 2
 //#define EXTRA_PROBING    1
 
 /**
@@ -1602,7 +1602,7 @@
   //#define WAIT_FOR_BED_HEATER     // Wait for bed to heat back up between probes (to improve accuracy)
   //#define WAIT_FOR_HOTEND         // Wait for hotend to heat back up between probes (to improve accuracy & prevent cold extrude)
 #endif
-//#define PROBING_FANS_OFF          // Turn fans off when probing
+#define PROBING_FANS_OFF          // Turn fans off when probing
 //#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
 //#define PROBING_STEPPERS_OFF      // Turn all steppers off (unless needed to hold position) when probing (including extruders)
 //#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
@@ -1709,7 +1709,7 @@
 
 // Travel limits (linear=mm, rotational=°) after homing, corresponding to endstop positions.
 #define X_MIN_POS -18
-#define Y_MIN_POS -2
+#define Y_MIN_POS -3
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
@@ -1901,7 +1901,7 @@
 #define PREHEAT_BEFORE_LEVELING
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
   #define LEVELING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
-  #define LEVELING_BED_TEMP     60
+  #define LEVELING_BED_TEMP     65
 #endif
 
 /**
@@ -1959,7 +1959,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 5
+  #define GRID_MAX_POINTS_X 6
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -2035,13 +2035,13 @@
 #define LCD_BED_TRAMMING
 
 #if ENABLED(LCD_BED_TRAMMING)
-  #define BED_TRAMMING_INSET_LFRB { 36, 36, 36, 36 } // (mm) Left, Front, Right, Back insets
+  #define BED_TRAMMING_INSET_LFRB { 34, 34, 34, 34 } // (mm) Left, Front, Right, Back insets
   #define BED_TRAMMING_HEIGHT      0.0        // (mm) Z height of nozzle at leveling points
   #define BED_TRAMMING_Z_HOP       4.0        // (mm) Z height of nozzle between leveling points
   //#define BED_TRAMMING_INCLUDE_CENTER       // Move to the center after the last corner
   #define BED_TRAMMING_USE_PROBE
   #if ENABLED(BED_TRAMMING_USE_PROBE)
-    #define BED_TRAMMING_PROBE_TOLERANCE 0.025  // (mm)
+    #define BED_TRAMMING_PROBE_TOLERANCE 0.01  // (mm)
     #define BED_TRAMMING_VERIFY_RAISED        // After adjustment triggers the probe, re-probe to verify
     //#define BED_TRAMMING_AUDIO_FEEDBACK
   #endif
@@ -2104,7 +2104,7 @@
 #endif
 
 // Homing speeds (linear=mm/min, rotational=°/min)
-#define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (4*60) }
+#define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (8*60) }
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -2221,22 +2221,22 @@
 // Preheat Constants - Up to 6 are supported without changes
 //
 #define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 195
-#define PREHEAT_1_TEMP_BED     50
+#define PREHEAT_1_TEMP_HOTEND 210
+#define PREHEAT_1_TEMP_BED     60
 #define PREHEAT_1_TEMP_CHAMBER 35
 #define PREHEAT_1_FAN_SPEED   255 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "PETG"
 #define PREHEAT_2_TEMP_HOTEND 225
-#define PREHEAT_2_TEMP_BED     60
+#define PREHEAT_2_TEMP_BED     70
 #define PREHEAT_2_TEMP_CHAMBER 35
-#define PREHEAT_2_FAN_SPEED   100 // Value from 0 to 255
+#define PREHEAT_2_FAN_SPEED   128 // Value from 0 to 255
 
 #define PREHEAT_3_LABEL       "ABS"
 #define PREHEAT_3_TEMP_HOTEND 240
-#define PREHEAT_3_TEMP_BED     70
+#define PREHEAT_3_TEMP_BED     80
 #define PREHEAT_3_TEMP_CHAMBER 35
-#define PREHEAT_3_FAN_SPEED   255 // Value from 0 to 255
+#define PREHEAT_3_FAN_SPEED   64 // Value from 0 to 255
 
 // @section motion
 
@@ -2251,7 +2251,7 @@
  *    P1  Raise the nozzle always to Z-park height.
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
  */
-//#define NOZZLE_PARK_FEATURE
+#define NOZZLE_PARK_FEATURE
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
